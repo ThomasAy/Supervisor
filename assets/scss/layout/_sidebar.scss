@@ -1,0 +1,5 @@
+.l-sidebar {
+	@include medium-column(6);
+	@include large-column(4);
+	background-color: rgba(#555555, 0.5);
+}

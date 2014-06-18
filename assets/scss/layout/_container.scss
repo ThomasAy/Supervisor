@@ -1,0 +1,6 @@
+.l-container {
+	@include small-column(2);
+	@include medium-column(6);
+	@include large-column(8);
+	background-color: rgba(#bada55, 0.5);
+}

@@ -1,0 +1,52 @@
+
+$columns: 12 !default;
+$gutter: 20px !default;
+
+$medium-size: 40.063em !default;
+$large-size:  64.063em !default;
+
+*,*:before, *:after{ box-sizing: border-box;}
+
+
+@mixin columns-base { 
+	float: left;
+	position: relative;
+	min-height: 1px;
+
+	background-color: rgba(0,0,0, 0.2);
+	border: 1px solid #000;
+}
+
+
+@mixin generate-responsive-columns($size: 'small') {
+
+	%#{$size}-columns {
+		@include columns-base;
+	}
+
+	@for $i from 1 through $columns{
+		@if $i == $columns {
+			.#{$size}-full {
+				@extend %#{$size}-columns;
+				width: 100%;
+			}	
+		} @else {
+			.#{$size}-#{$i} {
+				@extend %#{$size}-columns;
+				width: $i / $columns * 100%;
+			}
+		}
+	}
+}
+
+@media only screen {
+	@include generate-responsive-columns('small');
+}
+
+@media only screen and (min-width : $medium-size){
+	@include generate-responsive-columns('medium');
+}
+
+@media only screen and (min-width : $large-size){
+	@include generate-responsive-columns('large');
+}

@@ -1,0 +1,115 @@
+/*----------------------------------------*\
+		couleur
+\*----------------------------------------*/
+/*----------------------------------------*\
+		Responsive
+\*----------------------------------------*/
+/*----------------------------------------*\
+		Grid
+\*----------------------------------------*/
+/*----------------------------------------*\
+		Tools
+\*----------------------------------------*/
+@media only screen {
+  .l-container {
+    display: block;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    width: 16.66667%;
+  }
+}
+@media only screen and (min-width: 40.063em) {
+  .l-sidebar, .l-container {
+    display: block;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    width: 50%;
+  }
+}
+@media only screen and (min-width: 64.063em) {
+  .l-sidebar {
+    display: block;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    width: 33.33333%;
+  }
+
+  .l-container {
+    display: block;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    width: 66.66667%;
+  }
+}
+/*----------------------------------------*\
+		Base
+\*----------------------------------------*/
+*, *:before, *:after, *:hover {
+  box-sizing: border-box;
+}
+
+/*----------------------------------------*\
+		Layout
+\*----------------------------------------*/
+.l-sidebar {
+  background-color: rgba(85, 85, 85, 0.5);
+}
+
+.l-container {
+  background-color: rgba(186, 218, 85, 0.5);
+}
+
+/*----------------------------------------*\
+		Modules
+\*----------------------------------------*/
+.button {
+  padding: 0.5em 1.5em;
+  background-color: green;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #00b300;
+}
+.button:active {
+  background-color: #006700;
+}
+
+.button-small {
+  font-size: 0.6em;
+}
+
+.button-large {
+  font-size: 1.5em;
+}
+
+.button-border {
+  border: 2px solid green;
+  background-color: white;
+  color: green;
+}
+.button-border:hover {
+  border: 2px solid #00b300;
+  background-color: white;
+  color: #00b300;
+}
+
+.button-border-special {
+  border: 2px solid green;
+  background-color: white;
+  color: green;
+}
+.button-border-special:hover {
+  border: 2px solid white;
+  background-color: green;
+  color: white;
+}
+
+.button-rounded {
+  border-radius: 0.25em;
+}
