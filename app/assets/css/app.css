@@ -1,0 +1,146 @@
+/*----------------------------------------*\
+		Tools
+\*----------------------------------------*/
+/*----------------------------------------*\
+		Base
+\*----------------------------------------*/
+*, *:before, *:after, *:hover {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  color: #cccccc;
+}
+
+/*----------------------------------------*\
+		Layout
+\*----------------------------------------*/
+.l-sidebar {
+  display: block;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  width: 175px;
+  height: 100%;
+  color: #cccccc;
+  background-color: #343843;
+}
+
+.l-container {
+  display: block;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  width: calc(100% - 175px);
+  height: 100%;
+  color: #666666;
+}
+
+/*----------------------------------------*\
+		Modules
+\*----------------------------------------*/
+.button {
+  padding: 0.5em 1.5em;
+  background-color: #00aff0;
+  border: none;
+  color: #cccccc;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #24c4ff;
+}
+.button:active {
+  background-color: #009cd6;
+}
+
+.button-warning {
+  background-color: orange;
+}
+.button-warning .buuton-border {
+  border: 2px solid orange;
+  background-color: #cccccc;
+  color: orange;
+}
+.button-warning .buuton-border:hover {
+  border: 2px solid #ffb733;
+  background-color: #cccccc;
+  color: #ffb733;
+}
+.button-warning .button-border-special {
+  border-width: 2px;
+  border-style: solid;
+  background-color: #cccccc;
+  color: orange;
+}
+.button-warning .button-border-special:hover {
+  border: 2px solid #cccccc;
+  background-color: orange;
+  color: #cccccc;
+}
+
+.button-error {
+  background-color: red;
+}
+.button-error .buuton-border {
+  border: 2px solid red;
+  background-color: #cccccc;
+  color: red;
+}
+.button-error .buuton-border:hover {
+  border: 2px solid #ff3333;
+  background-color: #cccccc;
+  color: #ff3333;
+}
+.button-error .button-border-special {
+  border-width: 2px;
+  border-style: solid;
+  background-color: #cccccc;
+  color: red;
+}
+.button-error .button-border-special:hover {
+  border: 2px solid #cccccc;
+  background-color: red;
+  color: #cccccc;
+}
+
+.button-small {
+  font-size: 0.6em;
+}
+
+.button-large {
+  font-size: 1.5em;
+}
+
+.button-border {
+  border: 2px solid #00aff0;
+  background-color: #cccccc;
+  color: #00aff0;
+}
+.button-border:hover {
+  border: 2px solid #24c4ff;
+  background-color: #cccccc;
+  color: #24c4ff;
+}
+
+.button-border-special {
+  border-width: 2px;
+  border-style: solid;
+  background-color: #cccccc;
+  color: #00aff0;
+}
+.button-border-special:hover {
+  border: 2px solid #cccccc;
+  background-color: #00aff0;
+  color: #cccccc;
+}
+
+.button-rounded {
+  border-radius: 0.25em;
+}
+
+.menu-item {
+  list-style: none;
+}

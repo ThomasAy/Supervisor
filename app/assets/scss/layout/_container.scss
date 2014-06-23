@@ -1,0 +1,10 @@
+.l-container {
+	display: block;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	width: calc(100% - 175px);
+	height: 100%;
+
+	color: $color-paragraph;
+}

@@ -1,0 +1,17 @@
+{
+  "name": "G4-supervisor",
+  "main": "app/index.html",
+  "window": {
+    "width": 1100,
+    "min_width": 675,
+    "height": 680,
+    "min_height": 650,
+    "toolbar": true,
+    "frame": true,
+    "icon": "app/assets/img/icons/g4.ico"
+  },
+  "dependencies": {
+    "mysql": "~2.3.2",
+    "net-snmp": "~1.1.12"
+  }
+}

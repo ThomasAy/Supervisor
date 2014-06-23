@@ -1,0 +1,61 @@
+@mixin button-border($color) {
+	border: 2px solid $color;
+	background-color: $color-base;
+	color: $color;
+	&:hover {
+		border: 2px solid lighten($color, 10);
+		background-color: $color-base;
+		color: lighten($color, 10);
+	}
+}
+
+@mixin button-border-special($color) {
+	border-width: 2px;
+	border-style: solid;
+	background-color: $color-base;
+	color: $color;
+	&:hover { 
+		border: 2px solid $color-base;
+		background-color: $color;
+		color: $color-base;
+	}	
+}
+
+@mixin button($color) {
+	background-color: $color;
+	.buuton-border {
+		@include button-border($color);
+	}
+	.button-border-special {
+		@include button-border-special($color);
+	}
+}
+
+.button {
+	padding: 0.5em 1.5em;
+	background-color: $color-primary;
+	border: none;
+	color: $color-base;
+	cursor: pointer;
+	&:hover{
+		background-color: lighten($color-primary, 10);
+	}
+	&:active {
+		background-color: darken($color-primary, 5);	
+	}
+}
+
+.button-warning { 
+	@include button($color-warning);
+}
+.button-error { 
+	@include button($color-error);
+}
+
+.button-small { font-size: 0.6em; }
+.button-large { font-size: 1.5em; }
+
+.button-border { @include button-border($color-primary); }
+.button-border-special { @include button-border-special($color-primary); }
+
+.button-rounded { border-radius: 0.25em; }

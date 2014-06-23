@@ -1,0 +1,11 @@
+.l-sidebar {
+	display: block;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	width: 175px;
+	height: 100%;
+
+	color: $color-base;
+	background-color: $background-sidebar;
+}
