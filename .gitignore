@@ -1,2 +1,6 @@
 
+
 /web.config
+G4-supervisor.app/*
+npm-debug.log
+
