@@ -1,18 +1,18 @@
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'portefeuille_de_competences'
+  host     : '192.168.0.140',
+  user     : 'remote',
+  password : 'remote',
+  database : 'syslogs'
 });
 
 connection.connect();
 
-connection.query('SELECT * FROM projet', function(err, rows, fields) {
+connection.query('SELECT distinct ip as n FROM syslogs', function(err, rows, fields) {
   if (err) throw err;
 
   for (var i = rows.length - 1; i >= 0; i--) {
-  	console.log(rows[i].titre);
+  	app.$data.tab.push({message : rows[i].n});
   };
 });
 

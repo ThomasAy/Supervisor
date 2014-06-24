@@ -15,10 +15,12 @@ function vTemplate(url){
 	return window.toto[url];
 }
 
-// var app = new Vue({
-// 	el: '#view',
-// 	template: vTemplate('template.html'),
-// 	data: {
-// 		message: "It works ! "
-// 	}
-// })
+var app = new Vue({
+	el: '#view',
+	template: vTemplate('template.html'),
+	data: {
+		tab: [
+				
+			]
+	}
+})
