@@ -12,7 +12,11 @@ connection.query('SELECT distinct ip as n FROM syslogs', function(err, rows, fie
   if (err) throw err;
 
   for (var i = rows.length - 1; i >= 0; i--) {
-  	app.$data.tab.push({message : rows[i].n});
+  	window.snmpDevices[i] = {
+  			name : rows[i].n, 
+  			status:"disponnible", 
+  			storage:20
+  		};
   };
 });
 

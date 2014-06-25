@@ -4,34 +4,28 @@
 	<title>G4 SuperViseur</title>
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body>
+<body id="app">
 	<section class="l-menubar">
-		<ul class="menu">
-			<li class="menu-item"><a href="">menu 1</a></li>
-			<li class="menu-item"><a href="">menu 2</a></li>
-			<li class="menu-item"><a href="">menu 3</a></li>
-		</ul>
+		<nav class="menu">
+			<a href="#" class="menu-item {{currentView == 'multi' ? 'is-active' : ''}}"><span class="icon icon-network"></span>Monitoring</a>
+			<a href="#/settings" class="menu-item {{currentView == 'settings' ? 'is-active' : ''}}"><span class="icon icon-settings"></span>Paramètres</a>
+		</nav>
 	</section>
 
 	<section class="l-container">
-		<p id="view"></p>
+		<div v-view="currentView">
+		<!-- contenu dynamique -->
+		</div>
 	</section>
 
-	<div class="ok">
-		<p> 100Go </p>
-	</div>
-
-	<div class="warning">
-		<p> 100Go </p>
-	</div>
-
-	<div class="error">
-		<p> 100Go </p>
-	</div>
-    <script type="text/javascript" src="scripts/InitGlobal.js"></script>
+	<script type="text/javascript" src="vendor/director/director.js"></script>
 	<script type="text/javascript" src="vendor/vue/vue.js"></script>
+
+	<script type="text/javascript" src="scripts/InitGlobal.js"></script>
 	<script type="text/javascript" src="scripts/vTemplate.js"></script>
-    <script type="text/javascript" src="scripts/SnmpDevice.js"></script>
+	<script type="text/javascript" src="scripts/SnmpDevice.js"></script>
 	<script type="text/javascript" src="scripts/test/mysql.js"></script>
+	<script type="text/javascript" src="scripts/app.js"></script>
+	<script type="text/javascript" src="scripts/routes.js"></script>
 </body>
 </html>

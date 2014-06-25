@@ -1,0 +1,8 @@
+<h2 class="container-title">Monitoring</h2>
+<section class="devices">
+	<div v-repeat="device : devices" class="devices-item">
+		<h4 class="devices-item-name">{{device.name}}</h4>
+		<span class="devices-item-status">{{device.status}}</span>
+		<span class="devices-item-storage is-safe">{{device.storage}}Go disponnible</span>
+	</div>
+</section>

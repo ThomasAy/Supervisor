@@ -1,11 +1,10 @@
 .l-menubar {
 	display: block;
-	float: top;
 	position: relative;
 	min-height: 1px;
 	width: 100%;
-	height: 10%;
+	height: $menu-height;
 
-	color: $color-base;
+	color: $color-menu;
 	background-color: $color-theme;
 }

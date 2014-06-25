@@ -33,15 +33,15 @@
 
 .button {
 	padding: 0.5em 1.5em;
-	background-color: $color-primary;
+	background-color: $color-theme;
 	border: none;
 	color: $color-base;
 	cursor: pointer;
 	&:hover{
-		background-color: lighten($color-primary, 10);
+		background-color: lighten($color-theme, 10);
 	}
 	&:active {
-		background-color: darken($color-primary, 5);	
+		background-color: darken($color-theme, 5);	
 	}
 }
 
@@ -55,7 +55,7 @@
 .button-small { font-size: 0.6em; }
 .button-large { font-size: 1.5em; }
 
-.button-border { @include button-border($color-primary); }
-.button-border-special { @include button-border-special($color-primary); }
+.button-border { @include button-border($color-theme); }
+.button-border-special { @include button-border-special($color-theme); }
 
 .button-rounded { border-radius: 0.25em; }
