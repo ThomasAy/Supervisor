@@ -1,3 +1,3 @@
 function Program (name) {
-    this.name = undefined;
+    this.name = name;
 }
