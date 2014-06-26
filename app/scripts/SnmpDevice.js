@@ -1,6 +1,56 @@
 var snmp = require('net-snmp');
 var event = require('events');
 
+var eventEmitter = new event.EventEmitter();
+
+eventEmitter.on('getHostNameFromIP_completed', function (e, self) {
+    self.setName(e);
+});
+
+eventEmitter.on('getMaxRAM_completed', function (e, self) {
+    self.setMaxRAM(e);
+});
+
+eventEmitter.on('getUpTime_completed', function (e, self) {
+    self.upTime = e;
+});
+
+eventEmitter.on('getLocation_completed', function (e, self) {
+    self.location = e;
+});
+
+eventEmitter.on('getWorkgroupByOid_completed', function (e, self) {
+    self.workgroup = e;
+});
+
+eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
+    if (e.split(" ").length > 3) {
+        var disk = new MountedDisk(e);
+        self.mountedDisks.push(disk);
+        console.log(self.mountedDisks.length);
+        self.getBlockSizeFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
+        self.getStorageSizeFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
+        self.getStorageUsedFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
+    }
+    self.infoMountedDiskNumber++;
+    self.getMountedDiskByOid();
+});
+
+eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, rankInArray) {
+    self.mountedDisks[rankInArray].blockSize = e;
+});
+
+eventEmitter.on('getStorageSizeFromOid_completed', function (e, self, rankInArray) {
+    self.mountedDisks[rankInArray].storageSize = e;
+});
+
+eventEmitter.on('getStorageUsedFromOid_completed', function (e, self, rankInArray) {
+    self.mountedDisks[rankInArray].storageUsed = e;
+});
+    
+
+
+
 // public : Constructeur
 function SnmpDevice(ip)
 {
@@ -23,42 +73,7 @@ function SnmpDevice(ip)
     this.getMountedDisksNumber = function() {
             return this.mountedDisks.length;
     }
-
-    this.eventEmitter = new event.EventEmitter();
-
-    this.eventEmitter.on('getHostNameFromIP_completed', function (e, self) {
-        self.setName(e);
-    });
-
-    this.eventEmitter.on('getMaxRAM_completed', function (e, self) {
-        self.setMaxRAM(e);
-    });
-
-    this.eventEmitter.on('getUpTime_completed', function (e, self) {
-        self.upTime = e;
-    });
-
-    this.eventEmitter.on('getLocation_completed', function (e, self) {
-        self.location = e;
-    });
-
-    this.eventEmitter.on('getWorkgroupByOid_completed', function (e, self) {
-        self.workgroup = e;
-    });
-
-    this.eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
-        if (e.split(" ").length > 3) {
-            var disk = new MountedDisk(e);
-            self.mountedDisks.push(disk);
-            console.log(self.mountedDisks.length);
-            self.getBlockSizeFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
-            self.getStorageSizeFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
-            self.getStorageUsedFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
-        }
-        self.infoMountedDiskNumber++;
-        self.getMountedDiskByOid();
-    });
-
+    
     this.eventEmitter.on('getSoftByOid_completed', function (e, self) {
         var program = new Program(e);
         self.softInstalled.push(program);
@@ -66,18 +81,6 @@ function SnmpDevice(ip)
         self.getSoftByOid();
     });
 
-    this.eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, rankInArray) {
-        self.mountedDisks[rankInArray].blockSize = e;
-    });
-
-    this.eventEmitter.on('getStorageSizeFromOid_completed', function (e, self, rankInArray) {
-        self.mountedDisks[rankInArray].storageSize = e;
-    });
-
-    this.eventEmitter.on('getStorageUsedFromOid_completed', function (e, self, rankInArray) {
-        self.mountedDisks[rankInArray].storageUsed = e;
-    });
-    
     // private : set le nom de la machine
     this.setName = function (name) {
         this.name = name;
@@ -126,7 +129,7 @@ function SnmpDevice(ip)
                     if (snmp.isVarbindError(varbinds[i]))
                         return null;
                     else {
-                        self.eventEmitter.emit(eventName, varbinds[i].value.toString(), self);
+                        eventEmitter.emit(eventName, varbinds[i].value.toString(), self);
                     }
                 }
             }
@@ -146,7 +149,7 @@ function SnmpDevice(ip)
                     if (snmp.isVarbindError(varbinds[i]))
                         return null;
                     else {
-                        self.eventEmitter.emit(eventName, varbinds[i].value.toString(), self, disk);
+                        eventEmitter.emit(eventName, varbinds[i].value.toString(), self, disk);
                     }
                 }
             }
