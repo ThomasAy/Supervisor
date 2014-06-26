@@ -48,7 +48,13 @@ eventEmitter.on('getStorageUsedFromOid_completed', function (e, self, rankInArra
     self.mountedDisks[rankInArray].storageUsed = e;
 });
     
-
+ 
+eventEmitter.on('getSoftByOid_completed', function (e, self) {
+    var program = new Program(e);
+    self.softInstalled.push(program);
+    self.nbSoft++;
+    self.getSoftByOid();
+});
 
 
 // public : Constructeur
@@ -73,13 +79,6 @@ function SnmpDevice(ip)
     this.getMountedDisksNumber = function() {
             return this.mountedDisks.length;
     }
-    
-    this.eventEmitter.on('getSoftByOid_completed', function (e, self) {
-        var program = new Program(e);
-        self.softInstalled.push(program);
-        self.nbSoft++;
-        self.getSoftByOid();
-    });
 
     // private : set le nom de la machine
     this.setName = function (name) {
