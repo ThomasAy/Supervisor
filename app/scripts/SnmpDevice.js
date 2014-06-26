@@ -36,6 +36,10 @@ eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
     self.getMountedDiskByOid();
 });
 
+eventEmitter.on('feedCb_event', function feedCb(e, self) {
+    self.sessionInfos.push(e.toString());
+});
+
 eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, rankInArray) {
     self.mountedDisks[rankInArray].blockSize = e;
 });
@@ -47,7 +51,6 @@ eventEmitter.on('getStorageSizeFromOid_completed', function (e, self, rankInArra
 eventEmitter.on('getStorageUsedFromOid_completed', function (e, self, rankInArray) {
     self.mountedDisks[rankInArray].storageUsed = e;
 });
-    
  
 eventEmitter.on('getSoftByOid_completed', function (e, self) {
     var program = new Program(e);
@@ -55,7 +58,6 @@ eventEmitter.on('getSoftByOid_completed', function (e, self) {
     self.nbSoft++;
     self.getSoftByOid();
 });
-
 
 // public : Constructeur
 function SnmpDevice(ip)
@@ -75,6 +77,11 @@ function SnmpDevice(ip)
     this.upTime = undefined;
     this.location = undefined;
     this.workgroup = undefined;
+    this.sessionInfos = [];
+
+    this.getUserName = function () {
+        return this.sessionInfos[0];
+    };
 
     this.getMountedDisksNumber = function() {
             return this.mountedDisks.length;
@@ -113,6 +120,7 @@ function SnmpDevice(ip)
         this.getLocationByOid();
         this.getWorkgroupByOid();
         this.getSoftByOid();
+        this.walkUsersFromOid();
     }
 
     // private : permet de récupérer la valeur de l'oid pour le device en cours
@@ -218,6 +226,31 @@ function SnmpDevice(ip)
         var oids = [];
         oids.push(base_oids);
         this.getInfoDiskFromOids(oids, 'getStorageUsedFromOid_completed', rankInArray);
+    }
+
+    this.walkUsersFromOid = function () {
+        // 1.3.6.1.4.1.77.1.2.25.1.1.6.74.117.108.105.101.110
+        // 1.3.6.1.4.1.77.1.2.25.1.1.6.77.97.120.105.109.101
+        var self = this;
+        var oid = "1.3.6.1.4.1.77.1.2.25.1.1.6";
+        var session = snmp.createSession(this.ip, this.community);
+
+        var maxRepetitions = 1;
+
+        session.walk(oid, maxRepetitions,
+            function feedCb(varbinds) {
+                for (var i = 0; i < varbinds.length; i++) {
+                    if (snmp.isVarbindError(varbinds[i]))
+                        console.error(snmp.varbindError(varbinds[i]));
+                    else
+                        eventEmitter.emit('feedCb_event', varbinds[i].value, self);
+                } 
+            }
+            ,
+            function doneCb(error) {
+                if (error)
+                    console.error(error.toString());
+            });
     }
 }
 
