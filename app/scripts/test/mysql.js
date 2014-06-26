@@ -5,7 +5,7 @@ var connection;
 
 function connect(){
   connection = mysql.createConnection({
-    host     : '192.168.0.140',
+    host     : '192.168.0.136',
     user     : 'remote',
     password : 'remote',
     database : 'syslogs'
@@ -19,19 +19,25 @@ function disconnect(){
   console.log("disconnected")
 }
 
-function updateInfos(){
+function initInfos(){
   connect();
 
   connection.query('SELECT distinct ip as n FROM syslogs', function(err, rows, fields) {
     if (err) throw err;
-
     for (var i = rows.length - 1; i >= 0; i--) {
       var obj = new SnmpDevice(rows[i].n);
       obj.init();
-
-      window.snmpDevices.$add(i.toString(), obj);
+      window.snmpDevices.$add(obj.id.toString(), obj);
     };
   });
   disconnect();
+}
+
+function updateInfos(){
+  debugger;
+  for(device in window.snmpDevices)
+  {
+    device.init();
+  }
 }
 

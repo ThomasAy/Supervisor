@@ -74,6 +74,7 @@ function SnmpDevice(ip)
         this.getHostNameByOid();
         this.getMaxRAMByOid();
         this.getMountedDiskByOid();
+        console.log("init");
     }
 
     // private : permet de récupérer la valeur de l'oid pour le device en cours
