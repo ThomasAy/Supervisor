@@ -3,7 +3,7 @@
 	position: relative;
 	min-height: 1px;
 	width: 100%;
-	height: calc(100% - #{$menu-height});
+	height: calc(100% - #{$menu-height} - #{$topbar-height});
 	overflow: overlay;
 	padding: 0 10%;
 

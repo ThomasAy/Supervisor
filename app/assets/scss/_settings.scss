@@ -4,6 +4,9 @@ $color-theme: #D89949;
 $color-base : darken(#fff, 20);
 $color-menu: rgb(54, 53, 52);
 $color-container: #666;
+$color-topbar: #34495E;
+$color-close: #EF4836;
+$color-minimize: #3498DB;
 
 $color-warning: orange;
 $color-error: red;
@@ -12,6 +15,7 @@ $color-unknow: darken(#fff, 35);
 
 // menu
 $menu-height: 80px;
+$topbar-height: 20px;
 
 // Breakpoints
 $medium-size: 40.063em !default;

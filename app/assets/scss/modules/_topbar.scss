@@ -1,0 +1,29 @@
+.topbar-group-button {
+	float: right;
+	height: inherit;
+	margin: 0;
+	background-color: transparent;
+	border: 0;
+	-webkit-app-region: no-drag;
+}
+
+.topbar-button {
+	@extend .topbar-group-button;
+	padding: 0 $topbar-height / 2;
+	&:hover {
+		transition: background-color 0.3s;
+		cursor: pointer;
+	}
+}
+
+.topbar-close {
+	&:hover {
+		background-color:  $color-close;
+	}
+}
+
+.topbar-minimize {
+	&:hover {
+		background-color:  $color-minimize;
+	}
+}

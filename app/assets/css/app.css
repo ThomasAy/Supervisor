@@ -38,6 +38,12 @@ html, body {
 /*----------------------------------------*\
 		Layout
 \*----------------------------------------*/
+.l-topbar {
+  height: 20px;
+  background-color: #34495e;
+  -webkit-app-region: drag;
+}
+
 .l-menubar {
   display: block;
   position: relative;
@@ -53,7 +59,7 @@ html, body {
   position: relative;
   min-height: 1px;
   width: 100%;
-  height: calc(100% - 80px);
+  height: calc(100% - 80px - 20px);
   overflow: overlay;
   padding: 0 10%;
   color: #666666;
@@ -69,7 +75,7 @@ html, body {
   font-weight: normal;
   font-style: normal;
 }
-.icon, .devices-item:before {
+.icon, .devices-item a:before {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -87,7 +93,7 @@ html, body {
   content: "\e600";
 }
 
-.icon-laptop:before, .devices-item:before {
+.icon-laptop:before, .devices-item a:before {
   content: "\e601";
 }
 
@@ -194,14 +200,29 @@ html, body {
   border-radius: 0.25em;
 }
 
-.container-title {
-  display: block;
-  position: relative;
-  top: -0.6em;
-  border-bottom: 4px solid #d89949;
-  color: #d89949;
-  font-size: 2rem;
-  line-height: 2em;
+.topbar-group-button, .topbar-button {
+  float: right;
+  height: inherit;
+  margin: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-app-region: no-drag;
+}
+
+.topbar-button {
+  padding: 0 10px;
+}
+.topbar-button:hover {
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.topbar-close:hover {
+  background-color: #ef4836;
+}
+
+.topbar-minimize:hover {
+  background-color: #3498db;
 }
 
 .menu {
@@ -211,18 +232,39 @@ html, body {
   color: inherit;
 }
 
-.menu-item {
+.menu-item, .menu-item-back {
   display: inline-block;
   height: 100%;
   padding: 0 1em;
   color: inherit;
   text-decoration: none;
 }
-.menu-item:hover {
+.menu-item:hover, .menu-item-back:hover {
   background-color: #e1b173;
 }
-.menu-item.is-active {
+.menu-item.is-active, .is-active.menu-item-back {
   border-bottom: 0.2em solid #363534;
+}
+.menu-item.is-hidden, .is-hidden.menu-item-back {
+  display: none;
+}
+
+.menu-item-back {
+  position: fixed;
+  height: inherit;
+  line-height: 80px;
+  font-size: 26.66667px;
+  color: inherit;
+}
+
+.container-title {
+  display: block;
+  position: relative;
+  top: -0.6em;
+  border-bottom: 4px solid #d89949;
+  color: #d89949;
+  font-size: 2rem;
+  line-height: 2em;
 }
 
 .devices {
@@ -237,14 +279,25 @@ html, body {
   margin-bottom: 1.5em;
   padding: 0.8em;
 }
-.devices-item:before {
-  float: left;
-  font-size: 4.5em;
+.devices-item.is-connected a:before {
+  color: rgba(0, 255, 0, 0.5);
+}
+.devices-item.is-disconnected a:before {
+  color: rgba(255, 0, 0, 0.5);
 }
 .devices-item:hover {
   transition-property: color, background-color;
   transition-duration: 0.5s;
   cursor: pointer;
+}
+.devices-item a {
+  color: inherit;
+  text-decoration: none;
+}
+.devices-item a:before {
+  float: left;
+  font-size: 4.5em;
+  cursor: none;
 }
 
 .devices-item-name {

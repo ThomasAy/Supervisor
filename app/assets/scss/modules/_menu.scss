@@ -7,6 +7,8 @@
 	color: inherit;
 }
 
+
+
 .menu-item {
 	display: inline-block;
 	height: 100%;
@@ -20,6 +22,19 @@
 	&.is-active {
 		border-bottom: 0.2em solid $color-menu;
 	}
+	&.is-hidden {
+		display: none;
+	}
+}
+
+.menu-item-back {
+	@extend .menu-item;
+	position: fixed;
+	height: inherit;
+	line-height: $menu-height;
+	
+	font-size: $menu-height / 3;
+	color: inherit;
 }
 
 .menu-icon {

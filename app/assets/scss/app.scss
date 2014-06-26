@@ -19,6 +19,7 @@
 /*----------------------------------------*\
 		Layout
 \*----------------------------------------*/
+@import 'layout/topbar';
 @import 'layout/menubar';
 @import 'layout/container';
 
@@ -27,6 +28,7 @@
 \*----------------------------------------*/
 @import 'modules/icon';
 @import 'modules/button';
-@import 'modules/container';
+@import 'modules/topbar';
 @import 'modules/menu';
+@import 'modules/container';
 @import 'modules/devices';

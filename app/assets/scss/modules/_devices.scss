@@ -9,19 +9,27 @@
 	float: left;
 	margin-bottom: 1.5em;
 	padding: 0.8em;
-	&:before {
-		@extend .icon-laptop:before;
-		@extend .icon;
-		float: left;
-		font-size: 4.5em;
-	}
+	&.is-connected a:before { color: rgba($color-ok, 0.5); }
+	&.is-disconnected a:before { color: rgba($color-error, 0.5); }
 	&:hover {
 		transition-property: color, background-color;
 		transition-duration: 0.5s;
 		
 		cursor: pointer;
 	}
+	& a {
+		color: inherit;
+		text-decoration: none;
+		&:before {
+			@extend .icon-laptop:before;
+			@extend .icon;
+			float: left;
+			font-size: 4.5em;
+			cursor: none;
+		}
+	}
 }
+
 
 .devices-item-name {
 	display: block;

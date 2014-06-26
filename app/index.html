@@ -5,7 +5,26 @@
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body id="app">
+	<section class="l-topbar">
+		<div class="topbar-group-button">
+			<button id="close" class="topbar-button topbar-close">
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 15 15">
+					<g>
+					</g>
+						<path d="M10.269 7.5l4.438 4.453q0.293 0.293 0.293 0.696t-0.293 0.681l-1.377 1.377q-0.278 0.293-0.688 0.293t-0.688-0.293l-4.453-4.438-4.453 4.438q-0.278 0.293-0.688 0.293t-0.688-0.293l-1.377-1.377q-0.293-0.278-0.293-0.681t0.293-0.696l4.438-4.453-4.438-4.438q-0.293-0.293-0.293-0.696t0.293-0.696l1.377-1.377q0.278-0.278 0.688-0.278t0.688 0.278l4.453 4.453 4.453-4.453q0.278-0.278 0.688-0.278t0.688 0.278l1.377 1.377q0.293 0.293 0.293 0.696t-0.293 0.696z" fill="#ffffff"></path>
+					</svg>
+				</button>
+			<button id="mini" class="topbar-button topbar-minimize">
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 15 15">
+					<g>
+					</g>
+						<path d="M15 6.563v1.875q0 0.396-0.278 0.667t-0.659 0.271h-13.125q-0.381 0-0.659-0.271t-0.278-0.667v-1.875q0-0.381 0.271-0.659t0.667-0.278h13.125q0.381 0 0.659 0.278t0.278 0.659z" fill="#ffffff"></path>
+					</svg>
+			</button>
+		</div>
+	</section>
 	<section class="l-menubar">
+		<a href="#" class="menu-item-back {{deviceId >= 0 ? '' : 'is-hidden'}}"><</a>
 		<nav class="menu">
 			<a href="#" class="menu-item {{currentView == 'multi' ? 'is-active' : ''}}"><span class="icon icon-network"></span>Monitoring</a>
 			<a href="#/settings" class="menu-item {{currentView == 'settings' ? 'is-active' : ''}}"><span class="icon icon-settings"></span>Paramètres</a>
@@ -22,8 +41,8 @@
 	<script type="text/javascript" src="vendor/director/director.js"></script>
 
     <script type="text/javascript" src="scripts/MountedDisk.js"></script>
-    <script type="text/javascript" src="scripts/Program.js"></script>
-
+	<script type="text/javascript" src="scripts/Program.js"></script>
+	
 	<script type="text/javascript" src="vendor/vue/vue.js"></script>
 
 	<script type="text/javascript" src="scripts/InitGlobal.js"></script>

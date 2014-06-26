@@ -1,7 +1,7 @@
 <h2 class="container-title">Monitoring</h2>
 <section class="devices">
-	<div v-repeat="device : devices" class="devices-item">
-		<a href="#device/{{device.id}}" class="menu-item">
+	<div v-repeat="device : devices" class="devices-item {{device.name ? 'is-connected' : 'is-disconnected'}}">
+		<a href="#device/{{device.id}}">
 			<h4 class="devices-item-name">{{device.name ? device.name : device.ip}}</h4>
 			<span class="devices-item-status">{{device.name ? 'connecté' : 'inconnu' }}</span>
 			<span class="devices-item-storage 	{{freeStorage(device) == null ? 'is-unknow' : freeStorage(device) > 20 ? 'is-safe' : freeStorage(device) < 5 ? 'is-critic' : 'is-unsafe'}} ">{{freeStorageMessage(device)}}</span>
