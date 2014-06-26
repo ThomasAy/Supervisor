@@ -12,8 +12,12 @@ function SnmpDevice(ip)
     this.maxRAM = undefined;
     this.currentRAM = undefined;
     this.community = 'publicSup';
-    this.nbMountedDisk = 0;
+    this.infoMountedDiskNumber = 0;
     this.mountedDisks = [];
+
+    this.getMountedDisksNumber = function() {
+            return this.mountedDisks.length;
+    }
 
     this.eventEmitter = new event.EventEmitter();
 
@@ -27,9 +31,13 @@ function SnmpDevice(ip)
 
     this.eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
         console.log(e);
-        var disk = new MountedDisk(e);
-        self.mountedDisks.push(disk);
-        self.nbMountedDisk++;
+
+        if (e.split(" ").length > 3) {
+            var disk = new MountedDisk(e);
+            self.mountedDisks.push(disk);
+        }
+        
+        self.infoMountedDiskNumber++;
         self.getMountedDiskByOid();
     });
     
@@ -123,7 +131,7 @@ function SnmpDevice(ip)
 
     // public : permet de démarrer la récupération des disques montés sur le device
     this.getMountedDiskByOid = function () {
-        var base_oids = "1.3.6.1.2.1.25.2.3.1.3." + (this.nbMountedDisk + 1);
+        var base_oids = "1.3.6.1.2.1.25.2.3.1.3." + (this.infoMountedDiskNumber + 1);
         var oids = [];
         oids.push(base_oids);
         this.getInfoFromOids(oids, 'getMountedDiskByOid_completed');
