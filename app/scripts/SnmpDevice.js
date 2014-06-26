@@ -46,6 +46,7 @@ SnmpDevice.prototype.convertKbyteToGByte = function (value) {
 SnmpDevice.prototype.init = function () {
     this.getHostNameByOid();
     this.getMaxRAMByOid();
+    console.log("init");
 }
 
 // private : permet de récupérer la valeur de l'oid pour le device en cours
@@ -55,7 +56,7 @@ SnmpDevice.prototype.getInfoFromOids = function (oids, eventName) {
     
     session.get(oids, function (err, varbinds) {
         if (err)
-            console.log('Erreur' + err);
+            console.log('Erreur ' + err);
         else {
             for (var i = 0; i < varbinds.length; i++) {
                 if (snmp.isVarbindError(varbinds[i]))
