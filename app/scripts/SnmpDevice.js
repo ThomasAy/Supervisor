@@ -14,6 +14,8 @@ function SnmpDevice(ip)
     this.community = 'publicSup';
     this.infoMountedDiskNumber = 0;
     this.mountedDisks = [];
+    this.nbSoft = 0;
+    this.softInstalled = [];
     this.upTime = undefined;
     this.location = undefined;
     this.workgroup = undefined;
@@ -55,6 +57,13 @@ function SnmpDevice(ip)
         }
         self.infoMountedDiskNumber++;
         self.getMountedDiskByOid();
+    });
+
+    this.eventEmitter.on('getSoftByOid_completed', function (e, self) {
+        var program = new Program(e);
+        self.softInstalled.push(program);
+        self.nbSoft++;
+        self.getSoftByOid();
     });
 
     this.eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, rankInArray) {
@@ -101,6 +110,7 @@ function SnmpDevice(ip)
         this.getUpTimeByOid();
         this.getLocationByOid();
         this.getWorkgroupByOid();
+        this.getSoftByOid();
     }
 
     // private : permet de récupérer la valeur de l'oid pour le device en cours
@@ -145,7 +155,6 @@ function SnmpDevice(ip)
 
     // public : récupérer le nom d'hôte
     this.getHostNameByOid = function () {
-        //var oids = ['1.3.6.1.2.1.1.5.0', '1.3.6.1.2.1.1.6.0', '1.3.6.1.2.1.1.7.0', '1.3.6.1.2.1.1.2.0', '1.3.6.1.2.1.1.3.0', '1.3.6.1.2.1.2.1.0', '1.3.6.1.2.1.6.5.0', '1.3.6.1.2.1.6.9.0'];
         var oids = ['1.3.6.1.2.1.1.5.0'];
         this.getInfoFromOids(oids, 'getHostNameFromIP_completed');
     }
@@ -177,6 +186,14 @@ function SnmpDevice(ip)
         var oids = [];
         oids.push(base_oids);
         this.getInfoFromOids(oids, 'getMountedDiskByOid_completed');
+    }
+
+    this.getSoftByOid = function () {
+        var base_oids = "1.3.6.1.2.1.25.6.3.1.2." + (this.nbSoft + 1);
+        var oids = [];
+        oids.push(base_oids);
+        this.getInfoFromOids(oids, 'getSoftByOid_completed');
+
     }
 
     // public
