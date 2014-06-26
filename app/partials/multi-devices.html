@@ -4,7 +4,7 @@
 		<a href="#device/{{device.id}}" class="menu-item">
 			<h4 class="devices-item-name">{{device.name}}</h4>
 			<span class="devices-item-status">{{device.status}}</span>
-			<span class="devices-item-storage is-safe">{{device.storage}}Go disponnible</span>
+			<span class="devices-item-storage 	{{device.storage > '20' ? 'is-safe' : device.storage < '5' ? 'is-critic' : 'is-unsafe'}} ">{{device.storage}}Go disponnible</span>
 		</a>
 	</div>
 </section>

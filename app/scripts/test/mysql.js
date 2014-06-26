@@ -2,7 +2,6 @@ var mysql      = require('mysql');
 var connection;
 
 
-
 function connect(){
   connection = mysql.createConnection({
     host     : '192.168.0.136',
@@ -10,7 +9,12 @@ function connect(){
     password : 'remote',
     database : 'syslogs'
   });
-  connection.connect();
+  try {  
+    connection.connect();
+  }
+  catch(err) {
+    console.log("Error " + err)
+  }
   console.log("connected");
 }
 
@@ -34,10 +38,24 @@ function initInfos(){
 }
 
 function updateInfos(){
-  debugger;
-  for(device in window.snmpDevices)
+  for(key in window.snmpDevices)
   {
-    device.init();
+    window.snmpDevices[key].init();
   }
+}
+
+function getLogFromIp(ip){
+   connect();
+
+   console.log('SELECT collected, facility, severity, message FROM syslogs where ip ="' + ip + '" order by collected desc limit 100');
+  connection.query('SELECT date_format(collected, "%Y-%m-%d %H:%k:%s") as collected, facility, severity, message FROM syslogs where ip ="' + ip + '" order by collected desc limit 100', function(err, rows, fields) {
+    if (err) throw err;
+    for (var i = rows.length - 1; i >= 0; i--) {
+      //console.log(rows[i]);
+      window.syslogs.push(rows[i]);
+      //window.syslogs.push({collected : rows[i].collected, facility : rows[i]})
+    };
+  });
+  disconnect();
 }
 

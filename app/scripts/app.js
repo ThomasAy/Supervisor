@@ -2,13 +2,17 @@ Vue.component('multi', { template: vTemplate('partials/multi-devices.html') })
 Vue.component('settings', { template: vTemplate('partials/settings.html') })
 Vue.component('fiche', { template: vTemplate('partials/device.html') })
 window.snmpDevices = {};
+window.syslogs = [];
+
+
 
 var app = new Vue({
 	el: '#app',
 	data: {
 		currentView: 'multi',
 		devices: window.snmpDevices,
-		deviceId: -1
+		deviceId: -1,
+		logs: window.syslogs
 	},
 	computed: {
 		device: function() {

@@ -1,1 +1,20 @@
-<p>{{device.name}} is at {{device.ip}} !</p>
+<h2 class="container-title">{{device.ip}}</h2>
+<section class="logs">
+	<TABLE BORDER="1" width="80%";>
+		<CAPTION>Log récent </CAPTION> 
+  	<TR> 
+	 	<TH style="max-width:30%; word-wrap: break-word;"> Heure </TH> 
+	 	<TH style="max-width:30%; word-wrap: break-word;"> Sender </TH> 
+	 	<TH style="max-width:30%; word-wrap: break-word;"> Message </TH> 
+  	</TR> 
+  
+  	<TR v-repeat="line : logs" style="max-width:800px;"> 
+	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.collected}} </TD> 
+	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.facility}} </TD> 
+		<TD style="max-width:30%; word-wrap: break-word;"> {{line.message}} </TD> 
+  	</TR>
+
+	</TABLE> 
+	
+</section>
+
