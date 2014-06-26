@@ -14,6 +14,9 @@ function SnmpDevice(ip)
     this.community = 'publicSup';
     this.infoMountedDiskNumber = 0;
     this.mountedDisks = [];
+    this.upTime = undefined;
+    this.location = undefined;
+    this.workgroup = undefined;
 
     this.getMountedDisksNumber = function() {
             return this.mountedDisks.length;
@@ -29,20 +32,41 @@ function SnmpDevice(ip)
         self.setMaxRAM(e);
     });
 
-    this.eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
-        console.log(e);
+    this.eventEmitter.on('getUpTime_completed', function (e, self) {
+        self.upTime = e;
+    });
 
+    this.eventEmitter.on('getLocation_completed', function (e, self) {
+        self.location = e;
+    });
+
+    this.eventEmitter.on('getWorkgroupByOid_completed', function (e, self) {
+        self.workgroup = e;
+    });
+
+    this.eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
         if (e.split(" ").length > 3) {
             var disk = new MountedDisk(e);
             self.mountedDisks.push(disk);
+            console.log(self.mountedDisks.length);
+            self.getBlockSizeFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
+            self.getStorageSizeFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
+            self.getStorageUsedFromOid(self.infoMountedDiskNumber + 1, self.mountedDisks.length - 1);
         }
-        
         self.infoMountedDiskNumber++;
         self.getMountedDiskByOid();
     });
-    
-    this.eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, disk) {
-        disk.blockSize = e;
+
+    this.eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, rankInArray) {
+        self.mountedDisks[rankInArray].blockSize = e;
+    });
+
+    this.eventEmitter.on('getStorageSizeFromOid_completed', function (e, self, rankInArray) {
+        self.mountedDisks[rankInArray].storageSize = e;
+    });
+
+    this.eventEmitter.on('getStorageUsedFromOid_completed', function (e, self, rankInArray) {
+        self.mountedDisks[rankInArray].storageUsed = e;
     });
     
     // private : set le nom de la machine
@@ -74,7 +98,9 @@ function SnmpDevice(ip)
         this.getHostNameByOid();
         this.getMaxRAMByOid();
         this.getMountedDiskByOid();
-        console.log("init");
+        this.getUpTimeByOid();
+        this.getLocationByOid();
+        this.getWorkgroupByOid();
     }
 
     // private : permet de récupérer la valeur de l'oid pour le device en cours
@@ -130,6 +156,21 @@ function SnmpDevice(ip)
         this.getInfoFromOids(oids, 'getMaxRAM_completed');
     }
 
+    this.getUpTimeByOid = function () {
+        var oids = ['1.3.6.1.2.1.25.1.1.0'];
+        this.getInfoFromOids(oids, 'getUpTime_completed');
+    }
+
+    this.getLocationByOid = function () {
+        var oids = ['1.3.6.1.2.1.1.6.0'];
+        this.getInfoFromOids(oids, 'getLocation_completed');
+    }
+
+    this.getWorkgroupByOid = function () {
+        var oids = ["1.3.6.1.4.1.77.1.4.1.0"];
+        this.getInfoFromOids(oids, 'getWorkgroupByOid_completed');
+    }
+
     // public : permet de démarrer la récupération des disques montés sur le device
     this.getMountedDiskByOid = function () {
         var base_oids = "1.3.6.1.2.1.25.2.3.1.3." + (this.infoMountedDiskNumber + 1);
@@ -139,13 +180,26 @@ function SnmpDevice(ip)
     }
 
     // public
-    this.getBlockSizeFromOid = function (rank, disk) {
-        var base_oids = "1.3.6.1.2.1.25.2.3.1.3." + rank;
+    this.getBlockSizeFromOid = function (rank, rankInArray) {
+        var base_oids = "1.3.6.1.2.1.25.2.3.1.4." + rank;
         var oids = [];
         oids.push(base_oids);
-        this.getInfoDiskFromOids(oids, 'getBlockSizeFromOid_completed' ,disk);
+        this.getInfoDiskFromOids(oids, 'getBlockSizeFromOid_completed', rankInArray);
     }
 
+    this.getStorageSizeFromOid = function (rank, rankInArray) {
+        var base_oids = "1.3.6.1.2.1.25.2.3.1.5." + rank;
+        var oids = [];
+        oids.push(base_oids);
+        this.getInfoDiskFromOids(oids, 'getStorageSizeFromOid_completed', rankInArray);
+    }
+
+    this.getStorageUsedFromOid = function (rank, rankInArray) {
+        var base_oids = "1.3.6.1.2.1.25.2.3.1.6." + rank;
+        var oids = [];
+        oids.push(base_oids);
+        this.getInfoDiskFromOids(oids, 'getStorageUsedFromOid_completed', rankInArray);
+    }
 }
 
 /*********************************/
@@ -154,10 +208,8 @@ function SnmpDevice(ip)
 
 //*
 var t = new SnmpDevice('192.168.0.161');
-
 t.init();
-console.log(t.id);
 
-var max = new SnmpDevice('192.168.0.140');
+var max = new SnmpDevice('192.168.0.136');
 max.init();
 //*/
