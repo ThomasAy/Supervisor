@@ -12,6 +12,8 @@ function SnmpDevice(ip)
     this.maxRAM = undefined;
     this.currentRAM = undefined;
     this.community = 'publicSup';
+    this.nbMountedDisk = 0;
+    this.mountedDisks = [];
 
     this.eventEmitter = new event.EventEmitter();
     this.eventEmitter.on('getHostNameFromIP_completed', this.getHostNameFromIP_completed);
@@ -46,13 +48,14 @@ SnmpDevice.prototype.convertKbyteToGByte = function (value) {
 SnmpDevice.prototype.init = function () {
     this.getHostNameByOid();
     this.getMaxRAMByOid();
+    this.getFirstMountedDiskByOid();
 }
 
 // private : permet de récupérer la valeur de l'oid pour le device en cours
 SnmpDevice.prototype.getInfoFromOids = function (oids, eventName) {
     var self = this;
     var session = snmp.createSession(this.ip, this.community);
-    
+
     session.get(oids, function (err, varbinds) {
         if (err)
             console.log('Erreur' + err);
@@ -87,10 +90,26 @@ SnmpDevice.prototype.getMaxRAM_completed = function (e, self) {
     self.setMaxRAM(e);
 }
 
+SnmpDevice.prototype.getFirstMountedDiskByOid_completed = function (e, self) {
+    console.log(e);
+    var disk = new MountedDisk();
+    self.mountedDisks.push(disk);
+}
+
 // public  : récupérer la RAM max de l'hôte
 SnmpDevice.prototype.getMaxRAMByOid = function () {
     var oids = ['1.3.6.1.2.1.25.2.2.0'];
     this.getInfoFromOids(oids, 'getMaxRAM_completed');
+}
+
+SnmpDevice.prototype.getFirstMountedDiskByOid = function () {
+    var oids = "1.3.6.1.2.1.25.2.3.1.3.1";
+    this.getInfoFromOids(oids, 'getFirstMountedDiskByOid_completed');
+
+}
+
+SnmpDevice.prototype.getMountedDiskAtRankByOid = function (rank) {
+    var base_oid = "1.3.6.1.2.1.25.2.3.1.3." + rank;
 }
 
 /*********************************/
@@ -98,14 +117,8 @@ SnmpDevice.prototype.getMaxRAMByOid = function () {
 /*********************************/
 
 //*
-var t = new SnmpDevice('192.168.0.140');
+var t = new SnmpDevice('192.168.0.161');
 
 t.init();
 console.log(t.id);
-
-
-var t2 = new SnmpDevice('192.168.0.140');
-
-t2.init();
-console.log(t2.id);
 //*/
