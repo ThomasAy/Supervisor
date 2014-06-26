@@ -16,100 +16,128 @@ function SnmpDevice(ip)
     this.mountedDisks = [];
 
     this.eventEmitter = new event.EventEmitter();
-    this.eventEmitter.on('getHostNameFromIP_completed', this.getHostNameFromIP_completed);
-    this.eventEmitter.on('getMaxRAM_completed', this.getMaxRAM_completed);
-}
 
-// private : set le nom de la machine
-SnmpDevice.prototype.setName = function (name) {
-    this.name = name;
-}
-
-// public : récupère le nom de la machine
-SnmpDevice.prototype.getName = function () {
-    return this.name;
-}
-
-// private : set la RAM max
-SnmpDevice.prototype.setMaxRAM = function (ram) {
-    this.maxRAM = ram;
-}
-
-// public : récupère la valeur RAM max
-SnmpDevice.prototype.getMaxRAM = function () {
-    return Number(this.convertKbyteToGByte(this.maxRAM).toFixed(3));
-}
-
-SnmpDevice.prototype.convertKbyteToGByte = function (value) {
-    return value / (1024 * 1024);
-}
-
-// public : initialise les informations sur l'objet
-SnmpDevice.prototype.init = function () {
-    this.getHostNameByOid();
-    this.getMaxRAMByOid();
-    this.getFirstMountedDiskByOid();
-}
-
-// private : permet de récupérer la valeur de l'oid pour le device en cours
-SnmpDevice.prototype.getInfoFromOids = function (oids, eventName) {
-    var self = this;
-    var session = snmp.createSession(this.ip, this.community);
-
-    session.get(oids, function (err, varbinds) {
-        if (err)
-            console.log('Erreur' + err);
-        else {
-            for (var i = 0; i < varbinds.length; i++) {
-                if (snmp.isVarbindError(varbinds[i]))
-                    return null;
-                else {
-                    self.eventEmitter.emit(eventName, varbinds[i].value.toString(), self);
-                }
-            }
-        }
+    this.eventEmitter.on('getHostNameFromIP_completed', function (e, self) {
+        self.setName(e);
     });
 
-}
+    this.eventEmitter.on('getMaxRAM_completed', function (e, self) {
+        self.setMaxRAM(e);
+    });
 
-// private : événement de retour pour la récupération du nom d'hôte
-SnmpDevice.prototype.getHostNameFromIP_completed = function (e, self) {
-    self.setName(e);
-}
+    this.eventEmitter.on('getMountedDiskByOid_completed', function (e, self) {
+        console.log(e);
+        var disk = new MountedDisk(e);
+        self.mountedDisks.push(disk);
+        self.nbMountedDisk++;
+        self.getMountedDiskByOid();
+    });
+    
+    this.eventEmitter.on('getBlockSizeFromOid_completed', function (e, self, disk) {
+        disk.blockSize = e;
+    });
 
-// public : récupérer le nom d'hôte
-SnmpDevice.prototype.getHostNameByOid = function () {
-    //var oids = ['1.3.6.1.2.1.1.5.0', '1.3.6.1.2.1.1.6.0', '1.3.6.1.2.1.1.7.0', '1.3.6.1.2.1.1.2.0', '1.3.6.1.2.1.1.3.0', '1.3.6.1.2.1.2.1.0', '1.3.6.1.2.1.6.5.0', '1.3.6.1.2.1.6.9.0'];
-    var oids = ['1.3.6.1.2.1.1.5.0'];
+    
+    // private : set le nom de la machine
+    this.setName = function (name) {
+        this.name = name;
+    }
 
-    this.getInfoFromOids(oids, 'getHostNameFromIP_completed');
-}
+    // public : récupère le nom de la machine
+    this.getName = function () {
+        return this.name;
+    }
 
-// private : événement de retour pour la récupération de la RAM max
-SnmpDevice.prototype.getMaxRAM_completed = function (e, self) {
-    self.setMaxRAM(e);
-}
+    // private : set la RAM max
+    this.setMaxRAM = function (ram) {
+        this.maxRAM = ram;
+    }
 
-SnmpDevice.prototype.getFirstMountedDiskByOid_completed = function (e, self) {
-    console.log(e);
-    var disk = new MountedDisk();
-    self.mountedDisks.push(disk);
-}
+    // public : récupère la valeur RAM max
+    this.getMaxRAM = function () {
+        return Number(this.convertKbyteToGByte(this.maxRAM).toFixed(3));
+    }
 
-// public  : récupérer la RAM max de l'hôte
-SnmpDevice.prototype.getMaxRAMByOid = function () {
-    var oids = ['1.3.6.1.2.1.25.2.2.0'];
-    this.getInfoFromOids(oids, 'getMaxRAM_completed');
-}
+    this.convertKbyteToGByte = function (value) {
+        return value / (1024 * 1024);
+    }
 
-SnmpDevice.prototype.getFirstMountedDiskByOid = function () {
-    var oids = "1.3.6.1.2.1.25.2.3.1.3.1";
-    this.getInfoFromOids(oids, 'getFirstMountedDiskByOid_completed');
+    // public : initialise les informations sur l'objet
+    this.init = function () {
+        this.getHostNameByOid();
+        this.getMaxRAMByOid();
+        this.getMountedDiskByOid();
+    }
 
-}
+    // private : permet de récupérer la valeur de l'oid pour le device en cours
+    this.getInfoFromOids = function (oids, eventName) {
+        var self = this;
+        var session = snmp.createSession(this.ip, this.community);
 
-SnmpDevice.prototype.getMountedDiskAtRankByOid = function (rank) {
-    var base_oid = "1.3.6.1.2.1.25.2.3.1.3." + rank;
+        session.get(oids, function (err, varbinds) {
+            if (err)
+                console.log('Erreur' + err);
+            else {
+                for (var i = 0; i < varbinds.length; i++) {
+                    if (snmp.isVarbindError(varbinds[i]))
+                        return null;
+                    else {
+                        self.eventEmitter.emit(eventName, varbinds[i].value.toString(), self);
+                    }
+                }
+            }
+        });
+    }
+
+    // private : permet de récupérer la valeur de l'oid pour le device en cours et linker à une instance de disk
+    this.getInfoDiskFromOids = function (oids, eventName, disk) {
+        var self = this;
+        var session = snmp.createSession(this.ip, this.community);
+
+        session.get(oids, function (err, varbinds) {
+            if (err)
+                console.log('Erreur' + err);
+            else {
+                for (var i = 0; i < varbinds.length; i++) {
+                    if (snmp.isVarbindError(varbinds[i]))
+                        return null;
+                    else {
+                        self.eventEmitter.emit(eventName, varbinds[i].value.toString(), self, disk);
+                    }
+                }
+            }
+        });
+    }
+
+    // public : récupérer le nom d'hôte
+    this.getHostNameByOid = function () {
+        //var oids = ['1.3.6.1.2.1.1.5.0', '1.3.6.1.2.1.1.6.0', '1.3.6.1.2.1.1.7.0', '1.3.6.1.2.1.1.2.0', '1.3.6.1.2.1.1.3.0', '1.3.6.1.2.1.2.1.0', '1.3.6.1.2.1.6.5.0', '1.3.6.1.2.1.6.9.0'];
+        var oids = ['1.3.6.1.2.1.1.5.0'];
+        this.getInfoFromOids(oids, 'getHostNameFromIP_completed');
+    }
+
+    // public  : récupérer la RAM max de l'hôte
+    this.getMaxRAMByOid = function () {
+        var oids = ['1.3.6.1.2.1.25.2.2.0'];
+        this.getInfoFromOids(oids, 'getMaxRAM_completed');
+    }
+
+    // public : permet de démarrer la récupération des disques montés sur le device
+    this.getMountedDiskByOid = function () {
+        var base_oids = "1.3.6.1.2.1.25.2.3.1.3." + (this.nbMountedDisk + 1);
+        var oids = [];
+        oids.push(base_oids);
+        this.getInfoFromOids(oids, 'getMountedDiskByOid_completed');
+    }
+
+    // public
+    this.getBlockSizeFromOid = function (rank, disk) {
+        var base_oids = "1.3.6.1.2.1.25.2.3.1.3." + rank;
+        var oids = [];
+        oids.push(base_oids);
+        this.getInfoDiskFromOids(oids, 'getBlockSizeFromOid_completed' ,disk);
+    }
+
 }
 
 /*********************************/
@@ -121,4 +149,7 @@ var t = new SnmpDevice('192.168.0.161');
 
 t.init();
 console.log(t.id);
+
+var max = new SnmpDevice('192.168.0.140');
+max.init();
 //*/
