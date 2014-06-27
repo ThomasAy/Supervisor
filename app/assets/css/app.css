@@ -24,22 +24,98 @@ html, body {
 }
 
 .ok {
-  color: lime;
+  color: #2ecc71;
 }
 
 .warning {
-  color: orange;
+  color: #e67e22;
 }
 
 .error {
-  color: red;
+  color: #f22613;
+}
+
+table {
+  border-collapse: collapse;
+  margin-bottom: 3em;
+  width: 100%;
+  background: #fff;
+  color: #666666;
+}
+
+td, th {
+  padding: 0.75em 1.5em;
+  text-align: left;
+}
+
+td.err {
+  background-color: #e992b9;
+  color: #fff;
+  font-size: 0.75em;
+  text-align: center;
+  line-height: 1;
+}
+
+th {
+  background-color: #31bc86;
+  font-weight: bold;
+  color: #363534;
+  white-space: nowrap;
+}
+
+tbody th {
+  background-color: #d89949;
+}
+
+tbody tr:nth-child(2n-1) {
+  background-color: #f5f5f5;
+  transition: all .125s ease-in-out;
+}
+
+tbody tr:hover {
+  background-color: rgba(216, 153, 73, 0.3);
+}
+
+.search-severity-group {
+  margin-left: 180px;
+}
+
+/*
+  Hide radio button (the round disc)
+  we will use just the label to create pushbutton effect
+*/
+input[type=radio] {
+  display: none;
+  margin: 10px;
+}
+
+/*
+  Change the look'n'feel of labels (which are adjacent to radiobuttons).
+  Add some margin, padding to label
+*/
+input[type=radio] + label {
+  display: inline-block;
+  margin: -2px;
+  padding: 4px 12px;
+  background-color: #e7e7e7;
+  border-color: #ddd;
+  cursor: pointer;
+}
+
+/*
+ Change background color for label next to checked radio button
+ to make it look like highlighted button
+*/
+input[type=radio]:checked + label {
+  background-image: none;
+  background-color: #d0d0d0;
 }
 
 /*----------------------------------------*\
 		Layout
 \*----------------------------------------*/
 .l-topbar {
-  height: 20px;
+  height: 28px;
   background-color: #34495e;
   -webkit-app-region: drag;
 }
@@ -59,7 +135,7 @@ html, body {
   position: relative;
   min-height: 1px;
   width: 100%;
-  height: calc(100% - 80px - 20px);
+  height: calc(100% - 80px - 28px);
   overflow: overlay;
   padding: 0 10%;
   color: #666666;
@@ -116,52 +192,52 @@ html, body {
 }
 
 .button-warning {
-  background-color: orange;
+  background-color: #e67e22;
 }
 .button-warning .buuton-border {
-  border: 2px solid orange;
+  border: 2px solid #e67e22;
   background-color: #cccccc;
-  color: orange;
+  color: #e67e22;
 }
 .button-warning .buuton-border:hover {
-  border: 2px solid #ffb733;
+  border: 2px solid #eb9950;
   background-color: #cccccc;
-  color: #ffb733;
+  color: #eb9950;
 }
 .button-warning .button-border-special {
   border-width: 2px;
   border-style: solid;
   background-color: #cccccc;
-  color: orange;
+  color: #e67e22;
 }
 .button-warning .button-border-special:hover {
   border: 2px solid #cccccc;
-  background-color: orange;
+  background-color: #e67e22;
   color: #cccccc;
 }
 
 .button-error {
-  background-color: red;
+  background-color: #f22613;
 }
 .button-error .buuton-border {
-  border: 2px solid red;
+  border: 2px solid #f22613;
   background-color: #cccccc;
-  color: red;
+  color: #f22613;
 }
 .button-error .buuton-border:hover {
-  border: 2px solid #ff3333;
+  border: 2px solid #f55243;
   background-color: #cccccc;
-  color: #ff3333;
+  color: #f55243;
 }
 .button-error .button-border-special {
   border-width: 2px;
   border-style: solid;
   background-color: #cccccc;
-  color: red;
+  color: #f22613;
 }
 .button-error .button-border-special:hover {
   border: 2px solid #cccccc;
-  background-color: red;
+  background-color: #f22613;
   color: #cccccc;
 }
 
@@ -210,7 +286,7 @@ html, body {
 }
 
 .topbar-button {
-  padding: 0 10px;
+  padding: 0 14px;
 }
 .topbar-button:hover {
   transition: background-color 0.3s;
@@ -280,10 +356,10 @@ html, body {
   padding: 0.8em;
 }
 .devices-item.is-connected a:before {
-  color: rgba(0, 255, 0, 0.5);
+  color: rgba(46, 204, 113, 0.5);
 }
 .devices-item.is-disconnected a:before {
-  color: rgba(255, 0, 0, 0.5);
+  color: rgba(242, 38, 19, 0.5);
 }
 .devices-item:hover {
   transition-property: color, background-color;
@@ -318,11 +394,11 @@ html, body {
   color: #a6a6a6;
 }
 .devices-item-storage.is-safe {
-  color: lime;
+  color: #2ecc71;
 }
 .devices-item-storage.is-critic {
-  color: orange;
+  color: #e67e22;
 }
 .devices-item-storage.is-unsafe {
-  color: red;
+  color: #f22613;
 }

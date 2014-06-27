@@ -1,16 +1,35 @@
-<h2 class="container-title">{{device.ip}}</h2>
+<h2 class="container-title">{{device.name}} ({{device.ip}})</h2>
+<p>Nom d'utilisateur : {{device.getUserName()}}</p>
+<p>RAM utilisable : {{device.getMaxRAM()}} Go</p>
+<p>Programmes installés ({{device.nbSoft}})</p>
+<!-- <ul v-with="softInstalled : device.softInstalled">
+	<li v-repeat="softInstalled">{{name}}</li>
+</ul> -->
+
 <section class="logs">
+	<div class="search-severity-group">
+		<input type="radio" id="all" name="searchSeverity" value="" v-model="searchSeverity"><label for="all">all</label>
+		<input type="radio" id="alert" name="searchSeverity" value="alert" v-model="searchSeverity"><label for="alert">alert</label>
+		<input type="radio" id="critical" name="searchSeverity" value="critical" v-model="searchSeverity"><label for="critical">critical</label>
+		<input type="radio" id="debug" name="searchSeverity" value="debug" v-model="searchSeverity"><label for="debug">debug</label>
+		<input type="radio" id="error"name="searchSeverity" value="error" v-model="searchSeverity"><label for="error">error</label>
+		<input type="radio" id="info" name="searchSeverity" value="info" v-model="searchSeverity"><label for="info">info</label>
+		<input type="radio" id="notice" name="searchSeverity" value="notice" v-model="searchSeverity"><label for="notice">notice</label>
+		<input type="radio" id="warning" name="searchSeverity" value="warning" v-model="searchSeverity"><label for="warning">warning</label>
+	</div>
 	<TABLE BORDER="1" width="80%";>
 		<CAPTION>Log récent </CAPTION> 
   	<TR> 
 	 	<TH style="max-width:30%; word-wrap: break-word;"> Heure </TH> 
 	 	<TH style="max-width:30%; word-wrap: break-word;"> Sender </TH> 
+	 	<TH style="max-width:30%; word-wrap: break-word;"> Type </TH> 
 	 	<TH style="max-width:30%; word-wrap: break-word;"> Message </TH> 
   	</TR> 
   
-  	<TR v-repeat="line : logs" style="max-width:800px;"> 
+  	<TR v-repeat="line : logs | filterBy searchSeverity" style="width:100%;"> 
 	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.collected}} </TD> 
-	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.facility}} </TD> 
+	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.facility}} </TD>
+	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.severity}} </TD> 
 		<TD style="max-width:30%; word-wrap: break-word;"> {{line.message}} </TD> 
   	</TR>
 

@@ -7,7 +7,7 @@
     "height": 680,
     "min_height": 650,
     "toolbar": true,
-    "frame": true,
+    "frame": false,
     "icon": "app/assets/img/icons/g4.ico"
   },
   "dependencies": {

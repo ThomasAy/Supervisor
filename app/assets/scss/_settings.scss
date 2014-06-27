@@ -8,14 +8,14 @@ $color-topbar: #34495E;
 $color-close: #EF4836;
 $color-minimize: #3498DB;
 
-$color-warning: orange;
-$color-error: red;
-$color-ok: #00FF00;
+$color-warning: #E67E22; //orange;
+$color-error: #F22613; //red;
+$color-ok: #2ECC71; //#00FF00;
 $color-unknow: darken(#fff, 35);
 
 // menu
 $menu-height: 80px;
-$topbar-height: 20px;
+$topbar-height: 28px;
 
 // Breakpoints
 $medium-size: 40.063em !default;
