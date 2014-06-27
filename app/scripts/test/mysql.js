@@ -4,10 +4,10 @@ var connection;
 
 function connect(){
   connection = mysql.createConnection({
-    host     : '192.168.0.136',
-    user     : 'remote',
-    password : 'remote',
-    database : 'syslogs'
+    host     : window.db.host,
+    user     : window.db.user,
+    password : window.db.password,
+    database : window.db.database
   });
   try {  
     connection.connect();

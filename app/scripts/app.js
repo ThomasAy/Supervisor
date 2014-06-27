@@ -1,11 +1,17 @@
 window.snmpDevices = {};
 window.syslogs = [];
+window.db = {
+	host: '192.168.0.140',
+	database: 'syslogs',
+	user: 'remote',
+	password: 'remote'
+}
+
 
 var gui = require('nw.gui');
 var win = gui.Window.get();
 
 document.getElementById('close').addEventListener('click', function(){
-	debugger;
 	win.close();
 }, false)
 
@@ -23,7 +29,11 @@ var app = new Vue({
 		currentView: 'multi',
 		devices: window.snmpDevices,
 		deviceId: -1,
-		logs: window.syslogs
+		logs: window.syslogs,
+		db_host: window.db.host,
+		db_database: window.db.database,
+		db_user: window.db.user,
+		db_password: window.db.password
 	},
 	computed: {
 		device: function() {

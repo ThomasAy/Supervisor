@@ -80,6 +80,15 @@ tbody tr:hover {
   margin-left: 180px;
 }
 
+form {
+  width: 55%;
+  margin: 0 auto;
+}
+
+input[type=text] {
+  float: right;
+}
+
 /*
   Hide radio button (the round disc)
   we will use just the label to create pushbutton effect
