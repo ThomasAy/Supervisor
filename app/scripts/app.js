@@ -55,7 +55,7 @@ var app = new Vue({
         },
         freeStorageMessage: function(device) {
             var free = this.freeStorage(device);
-            return free == null ? 'non disponnible' : free + ' Go disponibles';
+            return free == null ? 'non disponible' : free + ' Go disponibles';
         }
     },
 	created: function(){initInfos()}
