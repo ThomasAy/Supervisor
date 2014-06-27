@@ -1,6 +1,21 @@
 <h2 class="container-title">{{device.name}} ({{device.ip}})</h2>
 <p>Nom d'utilisateur : {{device.getUserName()}}</p>
 <p>RAM utilisable : {{device.getMaxRAM()}} Go</p>
+
+<p>Disques</p>
+<fieldset>
+	<div v-with="mountedDisks : device.mountedDisks" class="disk-group">
+		<div v-repeat="mountedDisks" class="disk-item">
+			<p class="disk-item-name">{{name}} ({{root}})</p>
+			<div class="disk-bar-total"></div>
+			<div style="width: {{( getDiskUsed() * 100) / getDiskSize() }}%" class="disk-bar-used"></div>
+			<p class="disk-item-storage" >{{getDiskUsed()}}Go d'espace utilisé / {{getDiskSize()}}</p>
+		</div>
+	</div>
+</fieldset>
+
+<br>
+
 <p>Programmes installés ({{device.nbSoft}})</p>
 <fieldset id="programmes-fieldset">
 <p>Rechercher dans les programmes : <input v-model="programmes"></p>

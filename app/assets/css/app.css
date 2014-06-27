@@ -120,6 +120,10 @@ input[type=radio]:checked + label {
   background-color: #d0d0d0;
 }
 
+fieldset {
+  margin-bottom: 15px;
+}
+
 /*----------------------------------------*\
 		Layout
 \*----------------------------------------*/
@@ -410,4 +414,45 @@ input[type=radio]:checked + label {
 }
 .devices-item-storage.is-unsafe {
   color: #f22613;
+}
+
+.disk-group {
+  width: 100%;
+}
+
+.disk-item {
+  width: 50%;
+  padding: 5px 10px;
+  float: left;
+  margin-bottom: 10px;
+}
+.disk-item:last-child {
+  float: none;
+  width: 50%;
+  padding: 5px 10px;
+}
+
+.disk-bar-total {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 10px;
+}
+
+.disk-bar-used {
+  height: 10px;
+  background-color: #d89949;
+  transition: width 1s;
+  position: relative;
+  top: -10px;
+}
+
+.disk-item-storage {
+  position: relative;
+  top: -10px;
+  margin-top: 0;
+  color: rgba(102, 102, 102, 0.5);
+}
+
+.disk-item-name {
+  margin-bottom: 0;
 }

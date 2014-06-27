@@ -6,7 +6,7 @@
     "min_width": 675,
     "height": 680,
     "min_height": 650,
-    "toolbar": true,
+    "toolbar": false,
     "frame": false,
     "icon": "app/assets/img/icons/g4.ico"
   },
