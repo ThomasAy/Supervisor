@@ -31,11 +31,11 @@
 	 	<TH> Message </TH> 
   	</TR> 
   
-  	<TR v-repeat="line : logs | filterBy searchSeverity"> 
-	 	<TD > {{line.collected}} </TD> 
-	 	<TD > {{line.facility}} </TD>
-	 	<TD > {{line.severity}} </TD> 
-		<TD > <p style="max-width: 450px; TEXT-OVERFLOW: ellipsis; word-wrap: break-word;">{{line.message}} </p></TD> 
+  	<TR v-repeat="logs | filterBy searchSeverity in 'severity'"> 
+	 	<TD > {{collected}} </TD> 
+	 	<TD > {{facility}} </TD>
+	 	<TD > {{severity}} </TD> 
+		<TD > <p style="max-width: 450px; TEXT-OVERFLOW: ellipsis; word-wrap: break-word;">{{message}} </p></TD> 
   	</TR>
 
 	</TABLE> 
