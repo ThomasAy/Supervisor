@@ -2,7 +2,7 @@
 <p>Nom d'utilisateur : {{device.getUserName()}}</p>
 <p>RAM totale : {{device.getMaxRAM()}} Go</p>
 
-<p>Disques</p>
+<p>Disques : </p>
 <fieldset>
 	<div v-with="mountedDisks : device.mountedDisks" class="disk-group">
 		<div v-repeat="mountedDisks" class="disk-item">
@@ -38,7 +38,7 @@
 		<input type="radio" id="warning" name="searchSeverity" value="warning" v-model="searchSeverity"><label for="warning">warning</label>
 	</div>
 	<TABLE BORDER="1" width="80%">
-		<CAPTION>Log récent </CAPTION> 
+		<CAPTION>Logs récents </CAPTION> 
   	<TR> 
 	 	<TH> Heure </TH> 
 	 	<TH> Sender </TH> 
