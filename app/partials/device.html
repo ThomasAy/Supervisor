@@ -2,9 +2,14 @@
 <p>Nom d'utilisateur : {{device.getUserName()}}</p>
 <p>RAM utilisable : {{device.getMaxRAM()}} Go</p>
 <p>Programmes installés ({{device.nbSoft}})</p>
-<!-- <ul v-with="softInstalled : device.softInstalled">
-	<li v-repeat="softInstalled">{{name}}</li>
-</ul> -->
+<fieldset id="programmes-fieldset">
+<p>Rechercher dans les programmes : <input v-model="programmes"></p>
+<ul style="{{ programmes == '' ? 'display:none;' : '' }}" v-with="softInstalled : device.softInstalled">
+	<li v-repeat="softInstalled | filterBy programmes in name">{{name}}</li>
+</ul>
+</fieldset>
+
+<br>
 
 <section class="logs">
 	<div class="search-severity-group">

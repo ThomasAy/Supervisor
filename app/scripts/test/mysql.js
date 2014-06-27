@@ -3,12 +3,21 @@ var connection;
 
 
 function connect(){
-  connection = mysql.createConnection({
-    host     : window.db.host,
-    user     : window.db.user,
-    password : window.db.password,
-    database : window.db.database
-  });
+  if (app) {
+    connection = mysql.createConnection({
+      host     : window.app.$data.db_host,
+      user     : window.app.$data.db_user,
+      password : window.app.$data.db_password,
+      database : window.app.$data.db_database
+    });
+  } else {
+    connection = mysql.createConnection({
+      host     : window.db.host,
+      user     : window.db.user,
+      password : window.db.password,
+      database : window.db.database
+    });
+  }
   try {  
     connection.connect();
   }
