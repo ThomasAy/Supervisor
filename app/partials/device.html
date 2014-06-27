@@ -22,20 +22,20 @@
 		<input type="radio" id="notice" name="searchSeverity" value="notice" v-model="searchSeverity"><label for="notice">notice</label>
 		<input type="radio" id="warning" name="searchSeverity" value="warning" v-model="searchSeverity"><label for="warning">warning</label>
 	</div>
-	<TABLE BORDER="1" width="80%";>
+	<TABLE BORDER="1" width="80%">
 		<CAPTION>Log récent </CAPTION> 
   	<TR> 
-	 	<TH style="max-width:30%; word-wrap: break-word;"> Heure </TH> 
-	 	<TH style="max-width:30%; word-wrap: break-word;"> Sender </TH> 
-	 	<TH style="max-width:30%; word-wrap: break-word;"> Type </TH> 
-	 	<TH style="max-width:30%; word-wrap: break-word;"> Message </TH> 
+	 	<TH> Heure </TH> 
+	 	<TH> Sender </TH> 
+	 	<TH> Type </TH> 
+	 	<TH> Message </TH> 
   	</TR> 
   
-  	<TR v-repeat="line : logs | filterBy searchSeverity" style="width:100%;"> 
-	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.collected}} </TD> 
-	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.facility}} </TD>
-	 	<TD style="max-width:30%; word-wrap: break-word;"> {{line.severity}} </TD> 
-		<TD style="max-width:30%; word-wrap: break-word;"> {{line.message}} </TD> 
+  	<TR v-repeat="line : logs | filterBy searchSeverity"> 
+	 	<TD > {{line.collected}} </TD> 
+	 	<TD > {{line.facility}} </TD>
+	 	<TD > {{line.severity}} </TD> 
+		<TD > <p style="max-width: 800px; TEXT-OVERFLOW: ellipsis; word-wrap: break-word;">{{line.message}} </p></TD> 
   	</TR>
 
 	</TABLE> 

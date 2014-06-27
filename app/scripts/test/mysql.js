@@ -55,11 +55,13 @@ function updateInfos(){
 
 function getLogFromIp(ip){
    connect();
+   window.syslogs = [];
+   app.$data.logs = window.syslogs;
 
    console.log('SELECT collected, facility, severity, message FROM syslogs where ip ="' + ip + '" order by collected desc limit 100');
   connection.query('SELECT date_format(collected, "%Y-%m-%d %H:%k:%s") as collected, facility, severity, message FROM syslogs where ip ="' + ip + '" order by collected desc limit 100', function(err, rows, fields) {
     if (err) throw err;
-    for (var i = rows.length - 1; i >= 0; i--) {
+    for (var i = 0; i < rows.length; i++) {
       //console.log(rows[i]);
       window.syslogs.push(rows[i]);
       //window.syslogs.push({collected : rows[i].collected, facility : rows[i]})
